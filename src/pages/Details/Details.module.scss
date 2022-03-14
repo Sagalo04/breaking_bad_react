@@ -1,0 +1,16 @@
+.detail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+//   overflow: hidden;
+  .detail_char {
+    width: 40%;
+    img {
+      object-fit: cover;
+
+      width: 70%;
+      height: 400px;
+    }
+  }
+}

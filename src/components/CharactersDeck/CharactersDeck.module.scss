@@ -1,0 +1,9 @@
+.card_deck {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  min-height: 350px;
+  flex-wrap: wrap;
+  padding: 1rem;
+}

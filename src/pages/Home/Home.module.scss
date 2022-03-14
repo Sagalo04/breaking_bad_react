@@ -1,0 +1,16 @@
+.home{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .home_banner{
+        // width: 80%;
+        border-radius: 20px;
+        margin: 1rem 0;
+        width: 90%;
+    }
+}
+
+.search{
+    margin: 2rem 0;
+}

@@ -1,0 +1,30 @@
+.qoute {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  text-align: left;
+  .qoute_qual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    h3 {
+      margin: 0;
+      margin-top: 0.5rem;
+    }
+    #icon{
+        margin-left: 1rem;
+    }
+    .qoute_qual_det {
+      display: flex;
+      align-items: center;
+      span {
+        font-size: 2rem;
+      }
+    }
+  }
+
+  p {
+    margin: 0;
+  }
+}
