@@ -78,16 +78,13 @@ export const getSingleQuoteAction =
     });
     return await (
       fetch(`${URL}quotes/${id}`)
-        // return fetch(`https://www.breakingbadapi.com/api/quotes/1`)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           dispatch({
             type: GET_QUOTE_SUCCESS,
             payload: data[0],
           });
           saveStorage(getState());
-          console.log("entra2");
         })
         .catch((err) => {
           console.log(err);
@@ -102,12 +99,11 @@ export const getSingleQuoteAction =
 export const AddQualQouteAction =
   ({ qual = 0, opinion = "", id = 1 } = {}) =>
   (dispatch, getState) => {
-    // getSingleQuoteAction({id})
-    const { array, myquals, allquals, current } = getState().quotes;
+    const { myquals, allquals, current } = getState().quotes;
     let { uid } = getState().user;
-    console.log(array[id]);
+    console.log(current);
     const singlequal = {
-      current: array[id],
+      current: current,
       qual: qual,
       opinion: opinion,
       uid: uid,

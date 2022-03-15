@@ -6,37 +6,43 @@ import Styles from "./Qoute.module.scss";
 import { getSingleQuoteAction } from "reduxDucks/quoteDuck";
 import { connect } from "react-redux";
 
-function Qoute({
-  qoute = "",
-  id,
-  getSingleQuoteAction,
-  quals,
-  current,
-  get,
-} = {}) {
+function Qoute({ qoute = "", id, getSingleQuoteAction, quals, user_id } = {}) {
   const { setVisible, bindings } = useModal();
 
   const [qualification, setQualification] = useState(0);
+  const [qualificationPersonal, setQualificationPersonal] = useState({});
+  const [qualifications, setQualications] = useState([]);
 
   useEffect(() => {
-    // console.log(quals);
     if (quals.length > 0) {
       let aux = 0;
       let cont = 0;
+      let qualss = [];
+      let Pqual = {};
       quals.forEach((qual) => {
         if (qual.current.quote_id === id) {
           cont++;
           aux += qual.qual;
+          if (user_id !== qual.uid) {
+            qualss.push({
+              qual: qual.qual,
+              opinion: qual.opinion,
+              uid: qual.uid,
+            });
+          } else {
+            Pqual = { qual: qual.qual, opinion: qual.opinion, uid: qual.uid };
+          }
         }
       });
       let cuant = aux / cont;
-      if(isNaN(cuant)){
-        cuant = 0
+      if (isNaN(cuant)) {
+        cuant = 0;
       }
-      setQualification(cuant)
-      // console.log(cuant)
+      setQualificationPersonal(Pqual);
+      setQualification(cuant);
+      setQualications(qualss);
     }
-  }, [id, quals]);
+  }, [id, quals, user_id]);
 
   const handle = async () => {
     await getSingleQuoteAction({ id });
@@ -49,13 +55,14 @@ function Qoute({
         <p>"{qoute}"</p>
         <div className={Styles.qoute_qual}>
           <div>
-            <h3>Calificaciones y opiniones</h3>
+            <h3>Ratings and reviews</h3>
             <div className={Styles.qoute_qual_det}>
-              <span>{qualification}</span>
+              <span>{qualification.toFixed(1)}</span>
               <Icon icon="carbon:star-filled" color="#0fa958" height="36" />
             </div>
           </div>
           <Icon
+            className={Styles.clickable}
             onClick={handle}
             id={Styles.icon}
             icon="ep:arrow-right-bold"
@@ -72,7 +79,11 @@ function Qoute({
         aria-describedby="modal-description"
         {...bindings}
       >
-        <Score id={id} />
+        <Score
+          id={id}
+          scores={qualifications}
+          qualificationPersonal={qualificationPersonal}
+        />
       </Modal>
     </>
   );
@@ -81,10 +92,9 @@ const mapStateToProps = (state) => {
   return {
     current: state.quotes.current,
     quals: state.quotes.allquals,
-    //   fetching: state.quotes.fetching,
+    user_id: state.user.uid,
   };
 };
 export default connect(mapStateToProps, { getSingleQuoteAction })(
   React.memo(Qoute)
 );
-// export default (Qoute);

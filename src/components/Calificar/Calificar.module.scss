@@ -1,0 +1,14 @@
+.reviews{
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    align-items: center;
+    .iconcontent{
+        margin: 1rem;
+        .clickable:hover{
+            cursor: pointer;      
+            transform: scale(1.1);
+            transition: all 0.3s ease;
+        }
+    }
+}

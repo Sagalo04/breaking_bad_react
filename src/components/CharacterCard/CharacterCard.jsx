@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Styles from "./CharacterCard.module.scss";
 
-function CharacterCard({ img, name,nickname,id, birthday, occupation, status }) {
+function CharacterCard({ img, name,nickname,id, status }) {
   return (
     <Link to={`/character/${id}`} className={Styles.card}>
       <img loading="lazy" src={img} alt={name} />

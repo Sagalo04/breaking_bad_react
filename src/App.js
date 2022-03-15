@@ -20,9 +20,7 @@ function App({ fetching, loggedIn, doGoogleLoginAction, logOutAction }) {
     <div className="App">
       {fetching ? <Loading /> : loggedIn ? <Button onClick={logOut} clickable>Cerrar Sesión</Button> : <Button onClick={doLogin} clickable>Iniciar Sesión</Button>}
       <Routes>
-        <Route path="/" element={<Home />}>
-          {/* <Route index element={<Home />} /> */}
-        </Route>
+        <Route path="/" element={<Home />}/>
         <Route path="/character/:id" element={<Details />}></Route>
       </Routes>
     </div>

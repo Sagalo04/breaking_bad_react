@@ -1,0 +1,38 @@
+.title{
+    text-align: center ;
+}
+
+.qoute_qual_det {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  span {
+    font-size: 2rem;
+  }
+  .opinion {
+    margin-left: .5rem;
+    font-size: 1.3rem;
+  }
+}
+
+.opinions{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid #a7a7a7;
+  .qoute_qual_det_others{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0;
+    span {
+      font-size: 1.8rem;
+    }
+    .opinion {
+      margin-left: .5rem;
+      font-size: 1.2rem;
+    }
+  }
+
+}

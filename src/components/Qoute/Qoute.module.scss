@@ -22,6 +22,11 @@
         font-size: 2rem;
       }
     }
+    .clickable:hover{
+      cursor: pointer;
+      transform: scale(1.1);
+      transition: all 0.5s ease;
+    }
   }
 
   p {
