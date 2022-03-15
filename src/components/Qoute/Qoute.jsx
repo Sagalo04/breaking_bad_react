@@ -52,7 +52,10 @@ function Qoute({ qoute = "", id, getSingleQuoteAction, quals, user_id } = {}) {
   return (
     <>
       <div className={Styles.qoute}>
-        <p>"{qoute}"</p>
+        <div className={Styles.qoute_content}>
+          <span>"{qoute}"</span>
+          <Icon icon="ant-design:heart-outlined" color="#333" height="24" />
+        </div>
         <div className={Styles.qoute_qual}>
           <div>
             <h3>Ratings and reviews</h3>

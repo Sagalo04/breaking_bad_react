@@ -4,6 +4,24 @@
   align-items: flex-start;
   justify-content: flex-end;
   text-align: left;
+  .qoute_content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    // width: 70%;
+    width: 80%;
+    span{
+      width: 70%;
+    }
+    svg{
+      transition: ease all 0.2s;
+    }
+    svg:hover{
+      cursor: pointer;
+      transform: scale(1.1);
+      transition: ease all 0.2s;
+    }
+  }
   .qoute_qual {
     display: flex;
     justify-content: center;
@@ -12,8 +30,8 @@
       margin: 0;
       margin-top: 0.5rem;
     }
-    #icon{
-        margin-left: 1rem;
+    #icon {
+      margin-left: 1rem;
     }
     .qoute_qual_det {
       display: flex;
@@ -22,7 +40,7 @@
         font-size: 2rem;
       }
     }
-    .clickable:hover{
+    .clickable:hover {
       cursor: pointer;
       transform: scale(1.1);
       transition: all 0.5s ease;
