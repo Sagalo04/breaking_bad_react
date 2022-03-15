@@ -3,15 +3,30 @@ import { Modal, useModal } from "@nextui-org/react";
 import Score from "components/Score/Score";
 import React, { useEffect, useState } from "react";
 import Styles from "./Qoute.module.scss";
-import { getSingleQuoteAction } from "reduxDucks/quoteDuck";
+import {
+  getSingleQuoteAction,
+  AddFavoriteQualAction,
+  RemoveFavoriteQualAction,
+} from "reduxDucks/quoteDuck";
 import { connect } from "react-redux";
 
-function Qoute({ qoute = "", id, getSingleQuoteAction, quals, user_id } = {}) {
+function Qoute({
+  qoute = "",
+  id,
+  getSingleQuoteAction,
+  quals,
+  user_id,
+  AddFavoriteQualAction,
+  indexquote,
+  favorites,
+  RemoveFavoriteQualAction,
+} = {}) {
   const { setVisible, bindings } = useModal();
 
   const [qualification, setQualification] = useState(0);
   const [qualificationPersonal, setQualificationPersonal] = useState({});
   const [qualifications, setQualications] = useState([]);
+  const [itsFav, setItsFav] = useState("ant-design:heart-outlined");
 
   useEffect(() => {
     if (quals.length > 0) {
@@ -44,9 +59,28 @@ function Qoute({ qoute = "", id, getSingleQuoteAction, quals, user_id } = {}) {
     }
   }, [id, quals, user_id]);
 
+  useEffect(() => {
+    if (favorites.length > 0) {
+      favorites.forEach((favorite) => {
+        if (favorite.quote.quote_id === id) {
+          setItsFav("ant-design:heart-filled");
+        }
+      });
+    }
+  }, [favorites, id]);
+
   const handle = async () => {
     await getSingleQuoteAction({ id });
     setVisible(true);
+  };
+
+  const handleFav = () => {
+    if (itsFav === "ant-design:heart-filled") {
+      RemoveFavoriteQualAction({indexquote})
+      setItsFav("ant-design:heart-outline");
+    } else {
+      AddFavoriteQualAction({ indexquote });
+    }
   };
 
   return (
@@ -54,7 +88,7 @@ function Qoute({ qoute = "", id, getSingleQuoteAction, quals, user_id } = {}) {
       <div className={Styles.qoute}>
         <div className={Styles.qoute_content}>
           <span>"{qoute}"</span>
-          <Icon icon="ant-design:heart-outlined" color="#333" height="24" />
+          <Icon onClick={handleFav} icon={itsFav} color="red" height="24" />
         </div>
         <div className={Styles.qoute_qual}>
           <div>
@@ -96,8 +130,11 @@ const mapStateToProps = (state) => {
     current: state.quotes.current,
     quals: state.quotes.allquals,
     user_id: state.user.uid,
+    favorites: state.quotes.favorites,
   };
 };
-export default connect(mapStateToProps, { getSingleQuoteAction })(
-  React.memo(Qoute)
-);
+export default connect(mapStateToProps, {
+  getSingleQuoteAction,
+  AddFavoriteQualAction,
+  RemoveFavoriteQualAction,
+})(React.memo(Qoute));

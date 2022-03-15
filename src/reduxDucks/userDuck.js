@@ -1,5 +1,5 @@
 import { loginWithGoogle, signOutGoogle } from "firebaseC";
-// import { retreiveFavorites,logOutAction2 } from "./charsDuck";
+import { logOutAction2 } from "./quoteDuck";
 /**
  * Constants
  */
@@ -25,8 +25,8 @@ const reducer = (state = initialData, action) => {
       return { ...state, fetching: false, ...action.payload, loggedIn: true };
     case LOGIN_ERROR:
       return { ...state, fetching: false, error: action.payload };
-      case LOG_OUT:
-          return {...initialData}
+    case LOG_OUT:
+      return { ...initialData, loggedIn: false, fetching: false };
     default:
       return state;
   }
@@ -39,24 +39,25 @@ export default reducer;
  */
 
 export const logOutAction = () => (dispatch, getState) => {
-    signOutGoogle()
-    dispatch({
-        type: LOG_OUT,
-    })
-    localStorage.removeItem('storage')
-    // logOutAction2(dispatch,getState)
-}
+  signOutGoogle();
+  dispatch({
+    type: LOG_OUT,
+  });
+  localStorage.removeItem("storage");
+  logOutAction2(dispatch, getState);
+};
 
-export const restoreSessionAction = () => (dispatch, getState) =>{
-    let storage = localStorage.getItem('storage')
-    storage = JSON.parse(storage)
-    if (storage && storage.user) {
-        dispatch({
-            type: LOGIN_SUCCESS,
-            payload: storage.user
-        })
-    }
-}
+export const restoreSessionAction = () => (dispatch, getState) => {
+  let storage = localStorage.getItem("storage");
+  storage = JSON.parse(storage);
+  if (storage && storage.user.loggedIn) {
+    console.log(storage.user);
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: storage.user,
+    });
+  }
+};
 
 export const doGoogleLoginAction = () => (dispatch, getState) => {
   dispatch({
@@ -74,7 +75,7 @@ export const doGoogleLoginAction = () => (dispatch, getState) => {
         },
       });
       saveStorage(getState());
-    //   retreiveFavorites()(dispatch,getState)
+      //   retreiveFavorites()(dispatch,getState)
     })
     .catch((e) => {
       console.log(e);

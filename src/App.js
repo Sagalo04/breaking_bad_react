@@ -18,11 +18,34 @@ function App({ fetching, loggedIn, doGoogleLoginAction, logOutAction }) {
 
   return (
     <div className="App">
-      {fetching ? <Loading /> : loggedIn ? <Button onClick={logOut} clickable>Cerrar Sesión</Button> : <Button onClick={doLogin} clickable>Iniciar Sesión</Button>}
-      <Routes>
+      {fetching ? (
+        <Loading />
+      ) : loggedIn ? (
+        <>
+          <Button onClick={logOut} clickable>
+            Cerrar Sesión
+          </Button>{" "}
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/character/:id" element={<Details />}></Route>
+          </Routes>
+        </>
+      ) : (
+        <>
+          <Button onClick={doLogin} clickable>
+            Iniciar Sesión
+          </Button>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/character/:id" element={<Details />}></Route>
+          </Routes>
+        </>
+      )}
+
+      {/* <Routes>
         <Route path="/" element={<Home />}/>
         <Route path="/character/:id" element={<Details />}></Route>
-      </Routes>
+      </Routes> */}
     </div>
   );
 }

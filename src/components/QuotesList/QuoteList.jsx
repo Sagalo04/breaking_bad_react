@@ -7,6 +7,7 @@ import {
   getQuotesAction,
   AddQualQouteAction,
   retreiveAllQuals,
+  retreiveAllFavs,
 } from "reduxDucks/quoteDuck";
 import Styles from "./QuoteList.module.scss";
 
@@ -16,11 +17,13 @@ function QuoteList({
   fetching,
   getQuotesAction,
   retreiveAllQuals,
+  retreiveAllFavs,
 }) {
   useEffect(() => {
     getQuotesAction({ author });
     retreiveAllQuals();
-  }, [author, getQuotesAction, retreiveAllQuals]);
+    retreiveAllFavs();
+  }, [author, getQuotesAction, retreiveAllFavs, retreiveAllQuals]);
 
   if (fetching) return <Loading />;
   return (
@@ -28,12 +31,13 @@ function QuoteList({
       {quotes.length ? (
         <div className={Styles.qoutelist}>
           <h1>Phrases</h1>
-          {quotes.map((quote) => {
+          {quotes.map((quote, index) => {
             return (
               <Qoute
                 key={quote.quote_id + "" + quote.author}
                 qoute={quote.quote}
                 id={quote.quote_id}
+                indexquote={index}
               />
             );
           })}
@@ -65,4 +69,5 @@ export default connect(mapStateToProps, {
   getQuotesAction,
   AddQualQouteAction,
   retreiveAllQuals,
+  retreiveAllFavs,
 })(QuoteList);

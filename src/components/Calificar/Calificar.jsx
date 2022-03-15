@@ -18,28 +18,24 @@ function Calificar({ AddQual }) {
   const handlerAddQual = () => {
     AddQual({ qual, opinion });
   };
-    const handleClick = useCallback(
-      (star) => {
-        console.log(ico);
-        let stars = [
-          "carbon:star",
-          "carbon:star",
-          "carbon:star",
-          "carbon:star",
-          "carbon:star",
-        ];
-        for (let i = 0; i < star; i++) {
-          stars[i] = "carbon:star-filled";
-        }
-        setIco(stars);
-        setQual(star);
-        console.log(ico);
-      },
-      [ico]
-    );
+  const handleClick = useCallback((star) => {
+    let stars = [
+      "carbon:star",
+      "carbon:star",
+      "carbon:star",
+      "carbon:star",
+      "carbon:star",
+    ];
+    for (let i = 0; i < star; i++) {
+      stars[i] = "carbon:star-filled";
+    }
+    setIco(stars);
+    setQual(star);
+  }, []);
+
   return (
     <div className={Styles.reviews}>
-      <div className={Styles.iconcontent} >
+      <div className={Styles.iconcontent}>
         <Icon
           className={Styles.clickable}
           onClick={() => handleClick(1)}
@@ -82,7 +78,6 @@ function Calificar({ AddQual }) {
         placeholder="Write a review..."
         value={opinion}
         onChange={(e) => {
-          console.log(e.target.value);
           setOpinion(e.target.value);
         }}
         aria-label="write opinion"

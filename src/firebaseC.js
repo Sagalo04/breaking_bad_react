@@ -24,7 +24,10 @@ const db = firebase.firestore().collection("Breaking");
 //Update database
 export const updateDB = (allquals,uid,myquals) => {
   return db.doc("Calificaciones").set({ calificaciones: [...allquals] }) && db.doc(uid).set({ calificacion: myquals})
-  // return  db.doc(uid).set({ calificacion: myquals})
+};
+
+export const updateFavsDB = (uid,favorites) => {
+  return db.doc(uid).set({ favorites: favorites})
 };
 
 //Get allQual Database
@@ -34,6 +37,15 @@ export const getAllQuals = async () => {
     .get()
     .then((snap) => {
       return snap.data().calificaciones;
+    });
+};
+
+export const getAllFavs = async (uid) => {
+  return await db
+    .doc(uid)
+    .get()
+    .then((snap) => {
+      return snap.data().favorites;
     });
 };
 
