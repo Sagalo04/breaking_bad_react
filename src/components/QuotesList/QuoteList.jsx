@@ -1,33 +1,40 @@
 import { Icon } from "@iconify/react";
-import { Button, Loading } from "@nextui-org/react";
+import { Loading } from "@nextui-org/react";
 import Qoute from "components/Qoute/Qoute";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { getQuotesAction, AddQualQouteAction,retreiveAllQuals } from "reduxDucks/quoteDuck";
+import {
+  getQuotesAction,
+  AddQualQouteAction,
+  retreiveAllQuals,
+} from "reduxDucks/quoteDuck";
 import Styles from "./QuoteList.module.scss";
 
-function QuoteList({ author, quotes, fetching, getQuotesAction,AddQualQouteAction,retreiveAllQuals,quals }) {
+function QuoteList({
+  author,
+  quotes,
+  fetching,
+  getQuotesAction,
+  retreiveAllQuals,
+}) {
   useEffect(() => {
     getQuotesAction({ author });
-    retreiveAllQuals()
-  }, [author, getQuotesAction,retreiveAllQuals]);
-  //   console.log(quote)
-
-  const AddQual = (num) =>{
-    const qual = 4
-    const id = num
-    const opinion = "yes"
-    AddQualQouteAction({qual,opinion,id})
-  }
+    retreiveAllQuals();
+  }, [author, getQuotesAction, retreiveAllQuals]);
 
   if (fetching) return <Loading />;
   return (
     <>
       {quotes.length ? (
         <div className={Styles.qoutelist}>
-          {quotes.map((quote,index) => {
+          <h1>Phrases</h1>
+          {quotes.map((quote) => {
             return (
-                <Qoute key={quote.quote_id+""+quote.author} qoute={quote.quote} id={quote.quote_id}/> 
+              <Qoute
+                key={quote.quote_id + "" + quote.author}
+                qoute={quote.quote}
+                id={quote.quote_id}
+              />
             );
           })}
         </div>
@@ -45,7 +52,6 @@ function QuoteList({ author, quotes, fetching, getQuotesAction,AddQualQouteActio
     </>
   );
 }
-                {/* <Button onClick={() =>{AddQual(index)} }>ActionExample</Button> */}
 
 const mapStateToProps = (state) => {
   return {
@@ -57,5 +63,6 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   getQuotesAction,
-  AddQualQouteAction,retreiveAllQuals
+  AddQualQouteAction,
+  retreiveAllQuals,
 })(QuoteList);
