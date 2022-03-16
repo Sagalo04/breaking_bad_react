@@ -6,7 +6,7 @@ import Details from "pages/Details/Details";
 import Favs from "pages/Favs/Favs";
 import Home from "pages/Home/Home";
 import { connect } from "react-redux";
-import { Route, Routes, Navigate, Link, useLocation } from "react-router-dom";
+import { Route, Routes, Navigate, Link } from "react-router-dom";
 import { doGoogleLoginAction, logOutAction } from "reduxDucks/userDuck";
 
 function App({ fetching, loggedIn, doGoogleLoginAction, logOutAction }) {
@@ -14,12 +14,9 @@ function App({ fetching, loggedIn, doGoogleLoginAction, logOutAction }) {
     doGoogleLoginAction();
   };
 
-  let location = useLocation();
   const logOut = () => {
     logOutAction();
-    // if (location.pathname === "/favs") {
-      window.location.reload(false);
-    // }
+    window.location.reload(false);
   };
 
   return (
@@ -28,20 +25,18 @@ function App({ fetching, loggedIn, doGoogleLoginAction, logOutAction }) {
         <Loading />
       ) : loggedIn ? (
         <>
-        <div className="button_contain">
-          <Link to="/favs">
-            <Button clickable>Mis Favoritos</Button>{" "}
-          </Link>
-          <Button
-            onClick={logOut}
-            clickable
-            icon={
-              <Icon icon="ic:round-log-out" color="#fff" height="24" />
-            }
-          >
-            Cerrar Sesión
-          </Button>{" "}
-        </div>
+          <div className="button_contain">
+            <Link to="/favs">
+              <Button clickable>Mis Favoritos</Button>{" "}
+            </Link>
+            <Button
+              onClick={logOut}
+              clickable
+              icon={<Icon icon="ic:round-log-out" color="#fff" height="24" />}
+            >
+              Cerrar Sesión
+            </Button>{" "}
+          </div>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/character/:id" element={<Details />} />
@@ -50,17 +45,21 @@ function App({ fetching, loggedIn, doGoogleLoginAction, logOutAction }) {
         </>
       ) : (
         <>
-        <div className="button_contain">
-          <Button
-            onClick={doLogin}
-            clickable
-            icon={
-              <Icon icon="ant-design:user-outlined" color="#fff" height="24" />
-            }
-          >
-            Iniciar Sesión
-          </Button>
-        </div>
+          <div className="button_contain">
+            <Button
+              onClick={doLogin}
+              clickable
+              icon={
+                <Icon
+                  icon="ant-design:user-outlined"
+                  color="#fff"
+                  height="24"
+                />
+              }
+            >
+              Iniciar Sesión
+            </Button>
+          </div>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/character/:id" element={<Details />} />

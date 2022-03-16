@@ -80,7 +80,7 @@ export const getCharactersAction =
 
 export const getSingleCharacterAction =
   ({ id = 1 } = {}) =>
-  (dispatch,getState) => {
+  (dispatch, getState) => {
     dispatch({
       type: GET_CHARACTER,
     });
@@ -91,7 +91,7 @@ export const getSingleCharacterAction =
           type: GET_CHARACTER_SUCCESS,
           payload: data[0],
         });
-        saveStorage(getState())
+        saveStorage(getState());
       })
       .catch((err) => {
         console.log(err);
@@ -102,8 +102,31 @@ export const getSingleCharacterAction =
       });
   };
 
+export const getSearchCharacterAction =
+  ({ search = "Walter" } = {}) =>
+  (dispatch) => {
+    dispatch({
+      type: GET_CHARACTERS,
+    });
+    return fetch(`${URL}characters?name=${search.replace(/\s+/g, "+")}&limit=5`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        dispatch({
+          type: GET_CHARACTERS_SUCCESS,
+          payload: data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch({
+          type: GET_CHARACTERS_ERRROR,
+          payload: err,
+        });
+      });
+  };
 
-  /**
+/**
  * Aux Functions
  */
 const saveStorage = (storage) => {

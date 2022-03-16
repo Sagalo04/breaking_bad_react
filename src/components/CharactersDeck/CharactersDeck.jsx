@@ -14,7 +14,7 @@ function CharactersDeck({ chars, fetching, getCharactersAction }) {
 
   return (
     <>
-      <div className={Styles.card_deck}>
+      {chars.length ? <div className={Styles.card_deck}>
         {!fetching ? (
           chars.map((char) => {
             return (
@@ -31,7 +31,7 @@ function CharactersDeck({ chars, fetching, getCharactersAction }) {
         ) : (
           <Loading />
         )}
-      </div>
+      </div> : <h1>No results were found</h1>}
       <Pagination
         color={"success"}
         shadow
