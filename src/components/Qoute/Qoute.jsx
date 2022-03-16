@@ -9,6 +9,7 @@ import {
   RemoveFavoriteQualAction,
 } from "reduxDucks/quoteDuck";
 import { connect } from "react-redux";
+import useQualification from "hooks/useQualification";
 
 function Qoute({
   qoute = "",
@@ -23,41 +24,10 @@ function Qoute({
 } = {}) {
   const { setVisible, bindings } = useModal();
 
-  const [qualification, setQualification] = useState(0);
-  const [qualificationPersonal, setQualificationPersonal] = useState({});
-  const [qualifications, setQualications] = useState([]);
   const [itsFav, setItsFav] = useState("ant-design:heart-outlined");
 
-  useEffect(() => {
-    if (quals.length > 0) {
-      let aux = 0;
-      let cont = 0;
-      let qualss = [];
-      let Pqual = {};
-      quals.forEach((qual) => {
-        if (qual.current.quote_id === id) {
-          cont++;
-          aux += qual.qual;
-          if (user_id !== qual.uid) {
-            qualss.push({
-              qual: qual.qual,
-              opinion: qual.opinion,
-              uid: qual.uid,
-            });
-          } else {
-            Pqual = { qual: qual.qual, opinion: qual.opinion, uid: qual.uid };
-          }
-        }
-      });
-      let cuant = aux / cont;
-      if (isNaN(cuant)) {
-        cuant = 0;
-      }
-      setQualificationPersonal(Pqual);
-      setQualification(cuant);
-      setQualications(qualss);
-    }
-  }, [id, quals, user_id]);
+  const { qualification, qualificationPersonal, qualifications } =
+    useQualification({ quals, id, user_id });
 
   useEffect(() => {
     if (favorites.length > 0) {
@@ -76,7 +46,7 @@ function Qoute({
 
   const handleFav = () => {
     if (itsFav === "ant-design:heart-filled") {
-      RemoveFavoriteQualAction({indexquote})
+      RemoveFavoriteQualAction({ indexquote });
       setItsFav("ant-design:heart-outline");
     } else {
       AddFavoriteQualAction({ indexquote });

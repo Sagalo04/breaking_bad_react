@@ -22,6 +22,10 @@ const GET_FAV_QUALS = "GET_FAV_QUALS";
 const GET_FAV_QUALS_SUCCESS = "GET_FAV_QUALS_SUCCESS";
 const GET_FAV_QUALS_ERRROR = "GET_FAV_QUALS_ERRROR";
 
+const GET_FAV_QUALS2 = "GET_FAV_QUALS2";
+const GET_FAV_QUALS_SUCCESS2 = "GET_FAV_QUALS_SUCCESS2";
+const GET_FAV_QUALS_ERRROR2 = "GET_FAV_QUALS_ERRROR2";
+
 const GET_QUOTE = "GET_QUOTE";
 const GET_QUOTE_SUCCESS = "GET_QUOTE_SUCCESS";
 const GET_QUOTE_ERRROR = "GET_QUOTE_ERRROR";
@@ -55,15 +59,26 @@ export default function reducer(state = initialData, action) {
     case GET_QUALS_ERRROR:
       return { ...state, fetching: false, error: action.payload };
     case GET_FAV_QUALS:
-      return { ...state, fetching: false };
+      return { ...state, fetching: true };
     case GET_FAV_QUALS_SUCCESS:
       return { ...state, favorites: action.payload, fetching: false };
     case GET_FAV_QUALS_ERRROR:
       return { ...state, fetching: false, error: action.payload };
+    case GET_FAV_QUALS2:
+      return { ...state, fetching: true };
+    case GET_FAV_QUALS_SUCCESS2:
+      return {
+        ...state,
+        favorites: action.payload,
+        array: action.payload,
+        fetching: false,
+      };
+    case GET_FAV_QUALS_ERRROR2:
+      return { ...state, fetching: false, error: action.payload };
     case ADD_FAVORITE_QUOTE:
       return { ...state, ...action.payload };
     case LOG_OUT:
-      return { ...state,favorites: [] };
+      return { ...state, favorites: [] };
     default:
       return state;
   }
@@ -159,13 +174,22 @@ export const RemoveFavoriteQualAction =
     let { uid } = getState().user;
     let auxFav = [];
     favorites.forEach((favorite) => {
-      if (favorite.quote.quote_id === array[indexquote].quote_id) {
+      console.log(array[indexquote]);
+      if (array[indexquote].quote_id) {
+        console.log("aca1")
+        if (favorite.quote.quote_id === array[indexquote].quote_id) {
+        } else {
+          auxFav.push(favorite);
+        }
       } else {
-        auxFav.push(favorite);
+        console.log("aca2")
+        if (favorite.quote.quote_id === array[indexquote].quote.quote_id) {
+        } else {
+          auxFav.push(favorite);
+        }
       }
     });
     console.log(auxFav);
-    // favorites.push(singlequal);
     updateFavsDB(uid, auxFav);
     dispatch({
       type: ADD_FAVORITE_QUOTE,
@@ -211,6 +235,28 @@ export const retreiveAllFavs = () => (dispatch, getState) => {
       console.log(e);
       dispatch({
         type: GET_FAV_QUALS_ERRROR,
+        payload: e.message,
+      });
+    });
+};
+
+export const retreiveAllFavs2 = () => (dispatch, getState) => {
+  dispatch({
+    type: GET_FAV_QUALS2,
+  });
+  let { uid } = getState().user;
+  return getAllFavs(uid)
+    .then((favorites) => {
+      dispatch({
+        type: GET_FAV_QUALS_SUCCESS2,
+        payload: [...favorites],
+      });
+      saveStorage(getState());
+    })
+    .catch((e) => {
+      console.log(e);
+      dispatch({
+        type: GET_FAV_QUALS_ERRROR2,
         payload: e.message,
       });
     });

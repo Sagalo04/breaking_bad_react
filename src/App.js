@@ -2,9 +2,10 @@
 import { Button, Loading } from "@nextui-org/react";
 import "App.css";
 import Details from "pages/Details/Details";
+import Favs from "pages/Favs/Favs";
 import Home from "pages/Home/Home";
 import { connect } from "react-redux";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate, Link, useLocation } from "react-router-dom";
 import { doGoogleLoginAction, logOutAction } from "reduxDucks/userDuck";
 
 function App({ fetching, loggedIn, doGoogleLoginAction, logOutAction }) {
@@ -12,8 +13,12 @@ function App({ fetching, loggedIn, doGoogleLoginAction, logOutAction }) {
     doGoogleLoginAction();
   };
 
+  let location = useLocation()
   const logOut = () => {
     logOutAction();
+    if(location.pathname === "/favs"){
+      window.location.reload(false);
+    }
   };
 
   return (
@@ -25,9 +30,15 @@ function App({ fetching, loggedIn, doGoogleLoginAction, logOutAction }) {
           <Button onClick={logOut} clickable>
             Cerrar Sesión
           </Button>{" "}
+          <Link to="/favs">
+            <Button clickable>
+              Mis Favoritos
+            </Button>{" "}
+          </Link>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/character/:id" element={<Details />}></Route>
+            <Route path="/character/:id" element={<Details />} />
+            <Route path="/favs" element={<Favs />} />
           </Routes>
         </>
       ) : (
@@ -37,7 +48,8 @@ function App({ fetching, loggedIn, doGoogleLoginAction, logOutAction }) {
           </Button>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/character/:id" element={<Details />}></Route>
+            <Route path="/character/:id" element={<Details />} />
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </>
       )}

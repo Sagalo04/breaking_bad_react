@@ -17,7 +17,6 @@ function Details({ char, fetching, getSingleCharacterAction }) {
     return <Loading type="points" />;
   }
 
-  console.log(char.name);
   return (
     <div className={Styles.detail_container}>
       <Link to={`/`}>

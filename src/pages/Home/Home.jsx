@@ -15,6 +15,7 @@ function Home() {
         type="search"
         contentLeft={<Icon icon="akar-icons:search" color="#333" height="24" />}
         width={'90%'}
+        aria-label="search"
       />
       <CharactersDeck />
     </div>
