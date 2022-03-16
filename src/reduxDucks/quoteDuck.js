@@ -33,7 +33,7 @@ const GET_QUOTE_ERRROR = "GET_QUOTE_ERRROR";
 const ADD_QUOTE_QUALIFICATION = "ADD_QUOTE_QUALIFICATION";
 
 const ADD_FAVORITE_QUOTE = "ADD_FAVORITE_QUOTE";
-
+const REMOVE_FAVORITE_QUOTE = "REMOVE_FAVORITE_QUOTE";
 const LOG_OUT = "LOG_OUT";
 
 export default function reducer(state = initialData, action) {
@@ -69,13 +69,14 @@ export default function reducer(state = initialData, action) {
     case GET_FAV_QUALS_SUCCESS2:
       return {
         ...state,
-        favorites: action.payload,
-        array: action.payload,
+        ...action.payload,
         fetching: false,
       };
     case GET_FAV_QUALS_ERRROR2:
       return { ...state, fetching: false, error: action.payload };
     case ADD_FAVORITE_QUOTE:
+      return { ...state, ...action.payload };
+    case REMOVE_FAVORITE_QUOTE:
       return { ...state, ...action.payload };
     case LOG_OUT:
       return { ...state, favorites: [] };
@@ -176,13 +177,13 @@ export const RemoveFavoriteQualAction =
     favorites.forEach((favorite) => {
       console.log(array[indexquote]);
       if (array[indexquote].quote_id) {
-        console.log("aca1")
+        console.log("aca1");
         if (favorite.quote.quote_id === array[indexquote].quote_id) {
         } else {
           auxFav.push(favorite);
         }
       } else {
-        console.log("aca2")
+        console.log("aca2");
         if (favorite.quote.quote_id === array[indexquote].quote.quote_id) {
         } else {
           auxFav.push(favorite);
@@ -192,7 +193,7 @@ export const RemoveFavoriteQualAction =
     console.log(auxFav);
     updateFavsDB(uid, auxFav);
     dispatch({
-      type: ADD_FAVORITE_QUOTE,
+      type: REMOVE_FAVORITE_QUOTE,
       payload: { favorites: [...auxFav] },
     });
   };
@@ -247,9 +248,20 @@ export const retreiveAllFavs2 = () => (dispatch, getState) => {
   let { uid } = getState().user;
   return getAllFavs(uid)
     .then((favorites) => {
+      let auxFavs = [];
+      favorites.forEach((favorite) => {
+        let ausFav = {};
+        ausFav = {
+          quote_id: favorite.quote.quote_id,
+          quote: favorite.quote.quote,
+          author: favorite.quote.author,
+          series: favorite.quote.series,
+        };
+        auxFavs.push(ausFav);
+      });
       dispatch({
         type: GET_FAV_QUALS_SUCCESS2,
-        payload: [...favorites],
+        payload: { favorites: [...favorites], array: [...auxFavs] },
       });
       saveStorage(getState());
     })

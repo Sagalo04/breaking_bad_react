@@ -3,4 +3,14 @@
   padding: 4rem 1rem;
 }
 
+.button_contain{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.button_contain a{
+  margin-right: 1rem;
+  text-decoration: none;
+}
 

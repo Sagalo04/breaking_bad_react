@@ -1,4 +1,5 @@
 // import logo from "logo.svg";
+import { Icon } from "@iconify/react";
 import { Button, Loading } from "@nextui-org/react";
 import "App.css";
 import Details from "pages/Details/Details";
@@ -13,12 +14,12 @@ function App({ fetching, loggedIn, doGoogleLoginAction, logOutAction }) {
     doGoogleLoginAction();
   };
 
-  let location = useLocation()
+  let location = useLocation();
   const logOut = () => {
     logOutAction();
-    if(location.pathname === "/favs"){
+    // if (location.pathname === "/favs") {
       window.location.reload(false);
-    }
+    // }
   };
 
   return (
@@ -27,14 +28,20 @@ function App({ fetching, loggedIn, doGoogleLoginAction, logOutAction }) {
         <Loading />
       ) : loggedIn ? (
         <>
-          <Button onClick={logOut} clickable>
+        <div className="button_contain">
+          <Link to="/favs">
+            <Button clickable>Mis Favoritos</Button>{" "}
+          </Link>
+          <Button
+            onClick={logOut}
+            clickable
+            icon={
+              <Icon icon="ic:round-log-out" color="#fff" height="24" />
+            }
+          >
             Cerrar Sesión
           </Button>{" "}
-          <Link to="/favs">
-            <Button clickable>
-              Mis Favoritos
-            </Button>{" "}
-          </Link>
+        </div>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/character/:id" element={<Details />} />
@@ -43,9 +50,17 @@ function App({ fetching, loggedIn, doGoogleLoginAction, logOutAction }) {
         </>
       ) : (
         <>
-          <Button onClick={doLogin} clickable>
+        <div className="button_contain">
+          <Button
+            onClick={doLogin}
+            clickable
+            icon={
+              <Icon icon="ant-design:user-outlined" color="#fff" height="24" />
+            }
+          >
             Iniciar Sesión
           </Button>
+        </div>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/character/:id" element={<Details />} />

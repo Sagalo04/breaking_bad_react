@@ -1,3 +1,4 @@
+import { Loading } from "@nextui-org/react";
 import Qoute from "components/Qoute/Qoute";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
@@ -14,18 +15,21 @@ function FavoriteList({
     retreiveAllQuals();
   }, [retreiveAllFavs2, retreiveAllQuals]);
 
+  if (fetching) return <Loading />;
   return (
     <div>
-      {favorites.map((favorite, index) => {
-        return (
-          <Qoute
-            key={favorite.quote.quote_id + "" + favorite.quote.author}
-            qoute={favorite.quote.quote}
-            id={favorite.quote.quote_id}
-            indexquote={index}
-          />
-        );
-      })}
+      {favorites.length
+        ? favorites.map((favorite, index) => {
+            return (
+              <Qoute
+                key={favorite.quote.quote_id + "" + favorite.quote.author}
+                qoute={favorite.quote.quote}
+                id={favorite.quote.quote_id}
+                indexquote={index}
+              />
+            );
+          })
+        : <h1>No tienes phrases favoritas</h1>}
     </div>
   );
 }
